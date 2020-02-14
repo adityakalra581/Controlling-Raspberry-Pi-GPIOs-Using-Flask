@@ -5,14 +5,6 @@
 
 ## Also the led is by default off.
 
-
-
-
-
-
-
-
-
 import RPi.GPIO as GPIO
 from time import sleep
 
@@ -31,7 +23,7 @@ GPIO.output(led,False)     ## LED will remain off by-default.
 try:
     while True:
         GPIO.output(led, not GPIO.input(button))
-        sleep(.1)
+        #sleep(.1)
 finally:
     GPIO.output(led,False)
     GPIO.cleanup()
