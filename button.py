@@ -23,7 +23,6 @@ GPIO.output(led,False)     ## LED will remain off by-default.
 try:
     while True:
         GPIO.output(led, not GPIO.input(button))
-        #sleep(.1)
 finally:
     GPIO.output(led,False)
     GPIO.cleanup()
