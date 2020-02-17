@@ -18,11 +18,11 @@ button=17
 
 GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(led, GPIO.OUT)  
-GPIO.output(led,False)     ## LED will remain off by-default.
+GPIO.output(led,True)     ## LED will remain on by-default.
 
 try:
     while True:
-        GPIO.output(led, not GPIO.input(button))
+        GPIO.output(led, GPIO.input(button))
 finally:
     GPIO.output(led,False)
     GPIO.cleanup()
