@@ -1,12 +1,23 @@
 import RPi.GPIO as GPIO
 from flask import Flask, render_template, request
+from time import sleep
+import threading
+
+
+
 app = Flask(__name__)
 
 GPIO.setmode(GPIO.BCM)
+button=17   
+## I have only one button available right now so
+## I will toggle the led 23 from button
+
+
+
 
 # Create a dictionary called pins to store the pin number, name, and pin state:
 pins = {
-   23 : {'name' : 'GPIO 23', 'state' : GPIO.LOW},
+   23 : {'name' : 'GPIO 4', 'state' : GPIO.LOW},
    24 : {'name' : 'GPIO 24', 'state' : GPIO.LOW}
    }
 
@@ -14,6 +25,22 @@ pins = {
 for pin in pins:
    GPIO.setup(pin, GPIO.OUT)
    GPIO.output(pin, GPIO.LOW)
+
+
+BS=False     ##Button Status
+def toggle():
+    global BS
+    while(1):
+        if GPIO.input(button)==0:             
+            if BS==False:
+                GPIO.output(4,False)
+                BS=True
+                sleep(.5)
+            else:
+                GPIO.output(4,False)
+                BS=False
+                sleep(.5)
+ 
 
 @app.route("/")
 def main():
@@ -56,4 +83,11 @@ def action(changePin, action):
    return render_template('main.html', **templateData)
 
 if __name__ == "__main__":
-   app.run(host='0.0.0.0', port=80, debug=True)
+   t1 = threading.Thread(target=toggle)
+   t1.daemon = True
+   t1.start()
+
+
+
+   app.run(host='0.0.0.0', port=80, debug=True,
+        threaded=True)
