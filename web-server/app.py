@@ -8,17 +8,22 @@ import threading
 app = Flask(__name__)
 
 GPIO.setmode(GPIO.BCM)
+
+
+
+
+
 button=17   
 ## I have only one button available right now so
 ## I will toggle the led 23 from button
 
-
+GPIO.setup(button,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 
 
 # Create a dictionary called pins to store the pin number, name, and pin state:
 pins = {
-   23 : {'name' : 'GPIO 4', 'state' : GPIO.LOW},
-   24 : {'name' : 'GPIO 24', 'state' : GPIO.LOW}
+   4 : {'name' : 'GPIO 4', 'state' : GPIO.LOW},
+   18 : {'name' : 'GPIO 18', 'state' : GPIO.LOW}
    }
 
 # Set each pin as an output and make it low:
@@ -33,7 +38,7 @@ def toggle():
     while(1):
         if GPIO.input(button)==0:             
             if BS==False:
-                GPIO.output(4,False)
+                GPIO.output(4,True)
                 BS=True
                 sleep(.5)
             else:
